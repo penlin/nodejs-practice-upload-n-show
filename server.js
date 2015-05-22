@@ -6,15 +6,15 @@ var http = require("http");
 var url  = require("url");
 var PORT = 8888;
 
-function start(route){
+function start(route, handle){
 	function onRequest (request, response) {
 		var pathname = url.parse(request.url).pathname;
 		console.log("Request from " + request.connection.remoteAddress + " for " + pathname);
 
-		route(pathname);
+		var content = route(handle, pathname);
 
 	    response.writeHead(200, {"Content-Type": "text/plain"});       
-	    response.write("Hello Node!");
+	    response.write(content);
 	    response.end();
 	};
 
