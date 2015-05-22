@@ -3,5 +3,5 @@
 */
 
 var server = require("./server");
-
-server.start();
+var route  = require("./route")
+server.start(route.route);

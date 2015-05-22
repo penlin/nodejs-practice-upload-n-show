@@ -3,11 +3,16 @@ This is a test node.js module that would start a simple echo server which only r
 */
 
 var http = require("http");
+var url  = require("url");
 var PORT = 8888;
 
-function start(){
+function start(route){
 	function onRequest (request, response) {
-		console.log("Request from " + request.connection.remoteAddress);
+		var pathname = url.parse(request.url).pathname;
+		console.log("Request from " + request.connection.remoteAddress + " for " + pathname);
+
+		route(pathname);
+
 	    response.writeHead(200, {"Content-Type": "text/plain"});       
 	    response.write("Hello Node!");
 	    response.end();
