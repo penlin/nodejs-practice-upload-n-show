@@ -1,20 +1,30 @@
 /*
    This is a coolection of handlers for different request
 */
+var exec = require("child_process").exec;
 
-function start() {
+function temp_dirty_work(response) {
+	exec("ls -alh", { timeout: 10000, maxBuffer: 20000*1024 },
+    	function (error, stdout, stderr) {
+      		response.writeHead(200, {"Content-Type": "text/plain"});
+      		response.write(stdout);
+      		response.end();
+    	});
+}
+
+function start(response) {
 	console.log("Request handler 'start' was called.");
-	return "Hello start!";
+	temp_dirty_work(response);
 };
 
-function upload() {
+function upload(response) {
 	console.log("Request handler 'upload' was called.");
-	return "Hello upload!";
+	temp_dirty_work(response);
 };
 
-function show() {
+function show(response) {
 	console.log("Request handler 'show' was called.");
-	return "Hello show!";
+	temp_dirty_work(response);
 };
 
 exports.start = start;
