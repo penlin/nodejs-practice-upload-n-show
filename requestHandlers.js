@@ -37,8 +37,8 @@ function packages(response, pathname) {
 
 function upload(response, postData) {
 	console.log("Request handler 'upload' was called.");
-	response.writeHead(200, {"Content-Type":"text/plain"});
-	response.write(querystring.parse(postData).content);
+	response.writeHead(200, {"Content-Type":"text/html"});
+	response.write('<html><body>' + querystring.parse(postData).content + '</body></html>');
 	response.end();
 };
 
