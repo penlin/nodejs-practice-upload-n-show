@@ -1,52 +1,55 @@
 /*
    This is a coolection of handlers for different request
 */
+var fs = require("fs");
 var querystring = require("querystring");
-var exec = require("child_process").exec;
-
-function temp_dirty_work(response, postData) {
-	exec("ls -alh", { timeout: 10000, maxBuffer: 20000*1024 },
-    	function (error, stdout, stderr) {
-      		response.writeHead(200, {"Content-Type": "text/plain"});
-      		response.write(stdout);
-      		response.end();
-    	});
-}
 
 function start(response) {
 	console.log("Request handler 'start' was called.");
-//	temp_dirty_work(response);
-	var body = '<html>' + 
-		'<head>' + 
-		'<meta http-equiv="Content-Type" content="text/html"' + 
-		'charset=UTF-8 />' + 
-		'</head>' +
-		'<body>' +
-		'<form action="/upload" method="post">' + 
-		'<textarea name="text" rows="20" cols="60"></textarea>' +
-		'<input type="submit" value="Submit text" />' +
-		'</form>' +
-		'</body>' +
-		'</html>';
+	function responseHTML(err, data) {
+		if (err) {
+			response.writeHead(500);
+			response.end('404 Not Found');
+		}
+		response.writeHead(200,{"Content-Type":"text/html"});
+		response.write(data);
+		response.end();
+	}
 
-	response.writeHead(200, {"Content-Type":"text/html"});
-	response.write(body);
-	response.end();
+	fs.readFile("./index.html", responseHTML);
 };
+
+function packages(response, pathname) {
+	console.log("Request handler 'packages' was called.");
+	
+	function responseHTML(err, data) {
+		if (err) {
+			response.writeHead(500);
+			response.end();
+		}
+		response.writeHead(200);
+		response.write(data);
+		response.end();
+	}
+
+	fs.readFile('.' + pathname, responseHTML);
+}
 
 function upload(response, postData) {
 	console.log("Request handler 'upload' was called.");
-//	temp_dirty_work(response);
 	response.writeHead(200, {"Content-Type":"text/plain"});
-	response.write(querystring.parse(postData).text);
+	response.write(querystring.parse(postData).content);
 	response.end();
 };
 
 function show(response, postData) {
 	console.log("Request handler 'show' was called.");
-	temp_dirty_work(response);
+	// TODO:
+	response.writeHead(200, {"Content-Type":"text/plain"});
+	response.end();
 };
 
 exports.start = start;
+exports.packages = packages;
 exports.upload  = upload;
 exports.show  = show;
