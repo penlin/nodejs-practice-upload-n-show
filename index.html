@@ -25,8 +25,12 @@
     </head>
     <body>
         <form method="post" action="/upload">
-            <textarea name="content" style="width:40%"></textarea>
+            <textarea name="content" style="width:40%"></textarea><br>
             <input id="submit" type="submit" value="SUBMIT">
+        </form>
+        <form method="post" action="/show" enctype="multipart/form-data">
+        <input type="file" name="upload_file" multiple="multiple"><br>
+        <input type="submit" value="UPLOAD">
         </form>
     </body>
 </html>

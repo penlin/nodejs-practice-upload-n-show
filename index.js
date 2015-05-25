@@ -10,6 +10,7 @@ var handle = {}
 handle["/"] = requestHandlers.start;
 handle["/start"] = requestHandlers.start;
 handle["/include"] = requestHandlers.packages;
+handle["/img"] = requestHandlers.images;
 handle["/upload"] = requestHandlers.upload;
 handle["/show"] = requestHandlers.show;
 
