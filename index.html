@@ -1,5 +1,6 @@
 <html>
     <head>
+    	<meta charset="UTF-8">
         <script type="text/javascript" src="./include/tinymce/tinymce.min.js"></script>
         <script type="text/javascript">
             tinymce.init({
@@ -26,11 +27,11 @@
     <body>
         <form method="post" action="/upload">
             <textarea name="content" style="width:40%"></textarea><br>
-            <input id="submit" type="submit" value="SUBMIT">
+            <input id="submit" type="submit" value="送出">
         </form>
         <form method="post" action="/show" enctype="multipart/form-data">
         <input type="file" name="upload_file" multiple="multiple"><br>
-        <input type="submit" value="UPLOAD">
+        <input type="submit" value="上傳">
         </form>
     </body>
 </html>

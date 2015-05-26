@@ -13,7 +13,7 @@ function start(response, request) {
 			response.writeHead(500);
 			response.end('404 Not Found');
 		}
-		response.writeHead(200,{"Content-Type":"text/html"});
+		response.writeHead(200,{"Content-Type":"text/html;charset=UTF-8"});
 		response.write(data);
 		response.end();
 	}
@@ -23,6 +23,8 @@ function start(response, request) {
 
 function packages(response, pathname) {
 	console.log("Request handler 'packages' was called.");
+    response.setHeader("Cache-Control", "public, max-age=345600000");
+	response.setHeader('Expires', new Date(Date.now() + 345600000).toUTCString());
 	
 	function responseHTML(err, data) {
 		if (err) {
@@ -39,6 +41,8 @@ function packages(response, pathname) {
 
 function images(response, pathname) {
 	console.log("Request handler 'packages' was called.");
+    response.setHeader("Cache-Control", "public, max-age=345600000");
+	response.setHeader('Expires', new Date(Date.now() + 345600000).toUTCString());
 	
 	function responseHTML(err, data) {
 		if (err) {
@@ -56,12 +60,13 @@ function images(response, pathname) {
 function upload(response, request) {
 	console.log("Request handler 'upload' was called.");
 	var postData = '';
+    request.setEncoding="utf-8";
 	request.addListener("data", function(chunk) {
 		postData += chunk;
 	});
 	request.addListener("end", function() {
-		response.writeHead(200, {"Content-Type":"text/html"});
-		response.write('<html><body>' + querystring.parse(postData).content + '</body></html>');
+		response.writeHead(200, {"Content-Type":"text/html;charset=UTF-8"});
+		response.write(querystring.parse(postData).content);
 		response.end();		
 	});
 };
