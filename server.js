@@ -14,16 +14,6 @@ function start(route, handle){
 		console.log("Request from " + request.connection.remoteAddress + " for " + pathname);
 
 		route(handle, pathname, response, request);
-		/*
-		request.setEncoding("utf8");
-		request.addListener("data", function(chunk) {
-			postData += chunk;
-			console.log("Received POST data chunk '" + chunk + "'.");
-		});
-		request.addListener("end", function() {
-			
-		});
-		*/
 	};
 
 	http.createServer(onRequest).listen(PORT);

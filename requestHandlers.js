@@ -3,8 +3,10 @@
 */
 var fs = require("fs");
 var querystring = require("querystring");
-formidable = require("./node-modules/formidable");
+var formidable = require("./node-modules/formidable");
+var utils = require("./utils");
 
+var TEXT_TYPE_TABLE = {"js":"text/javascript","css":"text/css","html":"text/html","png":"image/png","jpg":"image/jpg","gif":"image/gif"};
 
 function start(response, request) {
 	console.log("Request handler 'start' was called.");
@@ -25,13 +27,20 @@ function packages(response, pathname) {
 	console.log("Request handler 'packages' was called.");
     response.setHeader("Cache-Control", "public, max-age=345600000");
 	response.setHeader('Expires', new Date(Date.now() + 345600000).toUTCString());
-	
+
 	function responseHTML(err, data) {
 		if (err) {
 			response.writeHead(500);
 			response.end();
 		}
-		response.writeHead(200,{"Content-Type":"text/javascript"});
+		var text_type = utils.getFileExtention(pathname);
+		console.log("request a " + text_type + " file -> " + TEXT_TYPE_TABLE[text_type]);
+		if (typeof(TEXT_TYPE_TABLE[text_type]) === 'string') {
+			response.writeHead(200,{"Content-Type":TEXT_TYPE_TABLE[text_type]});	
+		} else {
+			response.writeHead(200,{"Content-Type":"text/plain"});	
+		}
+		
 		response.write(data);
 		response.end();
 	};

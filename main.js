@@ -6,7 +6,7 @@ var server = require("./server");
 var route  = require("./route");
 var requestHandlers = require("./requestHandlers");
 
-var handle = {}
+var handle = {};
 handle["/"] = requestHandlers.start;
 handle["/start"] = requestHandlers.start;
 handle["/include"] = requestHandlers.packages;
