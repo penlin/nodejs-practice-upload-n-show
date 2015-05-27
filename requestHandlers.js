@@ -89,11 +89,12 @@ function show(response, request) {
 	console.log("about to parse");
 	form.parse(request, function(error, fields, files) {
 		var timestamp = (new Date()).getTime();
-	    console.log("parsing done file:%s -> /img/%d.png",files.upload_file.path, timestamp);
+	    //console.log("parsing done file:%s -> /img/%d.png",files.upload_file.path, timestamp);
 	    //fs.renameSync(files.upload_file.path, "/img/" + timestamp + ".png");
-	    response.writeHead(200, {"Content-Type": "text/html"});
-	    response.write("received image:<br/>");
-	    response.write("<img src='/" + files.upload_file.path + "' />");
+	    response.writeHead(200, {"Content-Type": "text/plain"});
+	    //response.write("received image:<br/>");
+	    //response.write("<img src='/" + files.upload_file.path + "' />");
+	    response.write(files.upload_file.path);
 	    response.end();
   	});
 };

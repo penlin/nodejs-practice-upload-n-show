@@ -1,6 +1,7 @@
 <html>
     <head>
     	<meta charset="UTF-8">
+    	<script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"></script>
         <script type="text/javascript" src="./include/tinymce/tinymce.min.js"></script>
         <script type="text/javascript">
             tinymce.init({
@@ -15,23 +16,54 @@
             	toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
             	toolbar2: "print preview media | forecolor backcolor emoticons",
             	file_browser_callback: function(field_name, url, type, win) {
-            		if(type=='image') $('#submit').click();
+            		if(type=='image') {
+            			$('#pick_image').click();
+            			console.log("upload_image click handle done");
+            		}
             	},
             	templates: [
             	{title: 'Test template 1', content: 'Test 1'},
             	{title: 'Test template 2', content: 'Test 2'}
             	]
             });
+
+			function load() {
+				console.log("body loaded!");
+				$('#pick_image').change(function (e) {
+					//console.log("image picked : " + $('#pick_image').file);
+					//alert("pick " + $('#pick_image').file);
+					$('#upload_image').click();
+				});
+
+				$('#image_form').submit(function (event) {
+					event.preventDefault();
+					var formData = new FormData($(this)[0]);
+					$.ajax({
+					    url: 'http://localhost:8888/show',
+					    type: 'POST',
+					    data: formData,
+					    async: false,
+					    cache: false,
+					    contentType: false,
+					    processData: false,
+					    success: function (returndata) {
+					      $('#mceu_49-inp').val(returndata);
+					    }
+					 });
+					return false;
+				});
+			};
+
         </script>
     </head>
-    <body>
+    <body onload="load()">
         <form method="post" action="/upload">
             <textarea name="content" style="width:40%"></textarea><br>
             <input id="submit" type="submit" value="送出">
         </form>
-        <form method="post" action="/show" enctype="multipart/form-data">
-        <input type="file" name="upload_file" multiple="multiple"><br>
-        <input type="submit" value="上傳">
+        <form id="image_form" method="post" action="/show" enctype="multipart/form-data" style="position:absolute;display:none" >
+        <input id="pick_image" type="file" name="upload_file" display="none" >
+        <input id="upload_image" type="submit" value="上傳" display="none" >
         </form>
     </body>
 </html>
