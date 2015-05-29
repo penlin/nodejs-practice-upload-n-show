@@ -75,7 +75,8 @@ function upload(response, request) {
 	});
 	request.addListener("end", function() {
 		response.writeHead(200, {"Content-Type":"text/html;charset=UTF-8"});
-		response.write(querystring.parse(postData).content);
+		response.write('<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script><script> hljs.initHighlightingOnLoad();</script>'
+			+ querystring.parse(postData).content);
 		response.end();		
 	});
 };

@@ -1,20 +1,23 @@
 <html>
     <head>
     	<meta charset="UTF-8">
-    	<script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-        <script type="text/javascript" src="./include/tinymce/tinymce.min.js"></script>
+    	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
+    	<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+		<script> hljs.initHighlightingOnLoad();</script>
+        <script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
         <script type="text/javascript">
             tinymce.init({
             	selector: "textarea",
-            	theme: "modern",
+            	//theme: "modern",
             	plugins: [
-            	"advlist autolink lists link image charmap print preview hr anchor pagebreak",
-            	"searchreplace wordcount visualblocks visualchars code fullscreen",
+            	"advlist autolink lists link image charmap preview hr anchor pagebreak",
+            	"searchreplace visualblocks visualchars code fullscreen",
             	"insertdatetime media nonbreaking save table contextmenu directionality",
-            	"emoticons template paste textcolor colorpicker textpattern"
+            	"emoticons template paste textcolor"// colorpicker textpattern"
             	],
             	toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-            	toolbar2: "print preview media | forecolor backcolor emoticons",
+            	toolbar2: "preview media | forecolor backcolor emoticons",
             	file_browser_callback: function(field_name, url, type, win) {
             		if(type=='image') {
             			$('#pick_image').click();
@@ -24,9 +27,15 @@
             	templates: [
             	{title: 'Test template 1', content: 'Test 1'},
             	{title: 'Test template 2', content: 'Test 2'}
-            	]
+            	],
+            	autosave_ask_before_unload:true,
+            	max_height: 400,
+            	min_height: 200,
+            	height: 300,
+            	width: 800
             });
-
+		</script>
+		<script type="text/javascript">
 			function load() {
 				console.log("body loaded!");
 				$('#pick_image').change(function (e) {
@@ -52,6 +61,14 @@
 					 });
 					return false;
 				});
+				$('pre').each(function(i, e) {hljs.highlightBlock(e)});
+				/*
+				$('textarea').change(function(event) {
+					$('pre code').each(function(i, block) {
+						hljs.highlightBlock(block);	
+					});
+				});
+				*/
 			};
 
         </script>
