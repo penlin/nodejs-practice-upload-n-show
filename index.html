@@ -27,6 +27,27 @@
             	]
             });
 
+			function onDragOverHandler(event) {
+				event.preventDefault();  
+			    event.stopPropagation();
+				//console.log("drag over:"+ event.dataTransfer.files.length);
+				event.dataTransfer.dropEffect = 'copy'; 
+			};
+
+			function onDropHandler(event) {
+				event.preventDefault();  
+    			event.stopPropagation();
+				console.log("drop:"+event.dataTransfer.files.length);
+
+				var files = event.dataTransfer.files; // FileList object.
+			    var reader = new FileReader();  
+			    reader.onload = function(evt) {            
+			         //document.getElementById('dropZone').value = evt.target.result;
+			         $('#dropZone').html(evt.target.result);
+			    }        
+			    reader.readAsText(files[0],"UTF-8");
+			};
+
 			function load() {
 				console.log("body loaded!");
 				$('#pick_image').change(function (e) {
@@ -52,18 +73,24 @@
 					 });
 					return false;
 				});
+
+				var dropZone = document.getElementById('dropZone');
+				console.log("dropZone: " + dropZone);
+ 				dropZone.addEventListener('dragover', onDragOverHandler, false);
+  				dropZone.addEventListener('drop', onDropHandler, false);
 			};
 
         </script>
     </head>
     <body onload="load()">
         <form method="post" action="/upload">
-            <textarea name="content" style="width:40%"></textarea><br>
+            <textarea id="content" name="content" style="width:40%"></textarea><br>
             <input id="submit" type="submit" value="送出">
+            <div id="dropZone" style="width: 100%; height: 164px; display: block;border: dashed 3px red;"align="center" >drop Zone</div>
         </form>
         <form id="image_form" method="post" action="/show" enctype="multipart/form-data" style="position:absolute;display:none" >
-        <input id="pick_image" type="file" name="upload_file" display="none" >
-        <input id="upload_image" type="submit" value="上傳" display="none" >
+        	<input id="pick_image" type="file" name="upload_file" display="none" >
+        	<input id="upload_image" type="submit" value="上傳" display="none" >
         </form>
     </body>
 </html>
