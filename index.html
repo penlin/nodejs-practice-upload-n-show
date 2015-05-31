@@ -37,11 +37,18 @@
 			function onDropHandler(event) {
 				event.preventDefault();  
     			event.stopPropagation();
-				console.log("drop:"+event.dataTransfer.files[0].type);
+				//console.log("drop:"+event.dataTransfer.files[0].name);
 
 				// tinyMCE.editors[0].execCommand("mceInsertContent", false, 'html_image_tag')
 				// exec insert inner html after the cursor in assigned editor
 				var files = event.dataTransfer.files; // FileList object.
+				if (files.length === 0) {
+					// drag url or text 
+					var url = event.dataTransfer.getData('text/plain');
+					tinymce.editors[0].execCommand("mceInsertContent",false,'<img src='+url+'/>');
+					return;
+				}
+
 				for (var i = 0 ; i < files.length; ++i) {
 					if (files[i].type.indexOf('image') < 0 ) {
 					    var reader = new FileReader();  
