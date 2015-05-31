@@ -18,7 +18,7 @@
             	file_browser_callback: function(field_name, url, type, win) {
             		if(type=='image') {
             			$('#pick_image').click();
-            			console.log("upload_image click handle done");
+            			//console.log("upload_image click handle done");
             		}
             	},
             	templates: [
@@ -37,15 +37,24 @@
 			function onDropHandler(event) {
 				event.preventDefault();  
     			event.stopPropagation();
-				console.log("drop:"+event.dataTransfer.files.length);
+				console.log("drop:"+event.dataTransfer.files[0].type);
 
+				// tinyMCE.editors[0].execCommand("mceInsertContent", false, 'html_image_tag')
+				// exec insert inner html after the cursor in assigned editor
 				var files = event.dataTransfer.files; // FileList object.
-			    var reader = new FileReader();  
-			    reader.onload = function(evt) {            
-			         //document.getElementById('dropZone').value = evt.target.result;
-			         $('#dropZone').html(evt.target.result);
-			    }        
-			    reader.readAsText(files[0],"UTF-8");
+				for (var i = 0 ; i < files.length; ++i) {
+					if (files[i].type.indexOf('image') < 0 ) {
+					    var reader = new FileReader();  
+					    reader.onload = function(evt) {
+					         //$('#dropZone').append(evt.target.result);
+					         tinymce.editors[0].execCommand("mceInsertContent",false,evt.target.result);
+					    }        
+					    reader.readAsText(files[i],"UTF-8");
+					} else {
+						// handle as upload and insert images
+						//console.log("other?")
+					}
+				};
 			};
 
 			function load() {
