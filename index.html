@@ -100,10 +100,13 @@
         </script>
     </head>
     <body onload="load()">
-        <form method="post" action="/upload">
-            <textarea id="content" name="content" style="width:40%"></textarea><br>
-            <input id="submit" type="submit" value="送出">
-            <div id="dropZone" style="width: 100%; height: 164px; display: block;border: dashed 3px red;"align="center" >drop Zone</div>
+    	<div style="width:100%;padding:20px;" align="center">
+        <form method="post" action="/upload" style="width:40%;min-width:560px;">
+            <textarea id="content" name="content"></textarea>
+            <br/>
+            <input id="submit" type="submit" value="送出" style="float:right;">
+            <br/>
+            <div id="dropZone" style="width: 100%; height: 150px; display: block;border: dashed 2px red;margin-top:20px" align="center" >drop Zone</div>
         </form>
         <form id="image_form" method="post" action="/show" enctype="multipart/form-data" style="position:absolute;display:none" >
         	<input id="pick_image" type="file" name="upload_file" display="none" >
